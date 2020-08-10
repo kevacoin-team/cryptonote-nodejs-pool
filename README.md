@@ -3,6 +3,25 @@ cryptonote-nodejs-pool
 
 High performance Node.js (with native C addons) mining pool for CryptoNote based coins. Comes with lightweight example front-end script which uses the pool's AJAX API. Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC) and Cryptonight Heavy (Sumokoin) algorithms.
 
+#### Support for Kevacoin
+
+See the configuration file example "config_examples/kevacoin.json". It is important to add "user" and "password" in the "daemon" section:
+
+```
+"daemon": {
+    "host": "127.0.0.1",
+    "port": 9337,
+    "user": "username, as defined by 'rpcuser' in kevacoin.conf",
+    "password": "password, as defined by 'rpcpassword' in kevacoin.conf"
+}
+```
+Kevacoin's default RPC port is 9337. The connection to Kevacoin RPC requires username and password. The username and password are specified in Kevacoin's configuration file. On Linux, the configuration file is `~/.kevacoin/kevacoin.conf`. Add the following lines in the configuration file:
+
+```
+rpcuser="username"
+rpcpassword="password"
+```
+
 
 #### Table of Contents
 * [Features](#features)
@@ -115,7 +134,7 @@ Usage
 * Coin daemon(s) (find the coin's repo and build latest version from source)
   * [List of Cryptonote coins](https://github.com/dvandal/cryptonote-nodejs-pool/wiki/Cryptonote-Coins)
 * [Node.js](http://nodejs.org/) v11.0+
-  * For Ubuntu: 
+  * For Ubuntu:
  ```
   curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash
   sudo apt-get install -y nodejs
@@ -123,8 +142,8 @@ Usage
   * Or use NVM(https://github.com/creationix/nvm) for debian/ubuntu.
 
 
-* [Redis](http://redis.io/) key-value store v2.6+ 
-  * For Ubuntu: 
+* [Redis](http://redis.io/) key-value store v2.6+
+  * For Ubuntu:
 ```
 sudo add-apt-repository ppa:chris-lea/redis-server
 sudo apt-get update
@@ -139,7 +158,7 @@ echo 1024 > /proc/sys/net/core/somaxconn
  ```
  chmod +x /etc/rc.local
  ```
- 
+
 * libssl required for the node-multi-hashing module
   * For Ubuntu: `sudo apt-get install libssl-dev`
 
@@ -157,7 +176,7 @@ you are using - a good place to start with redis is [data persistence](http://re
 ```bash
 sudo adduser --disabled-password --disabled-login your-user
 ```
-To login with this user : 
+To login with this user :
 ```
 sudo su - your-user
 ```
@@ -194,7 +213,7 @@ Explanation for each field:
 
 /* Number of coin decimals places for notifications and front-end */
 "coinDecimalPlaces": 4,
-  
+
 /* Coin network time to mine one block, see DIFFICULTY_TARGET constant in DAEMON_CODE/src/cryptonote_config.h */
 "coinDifficultyTarget": 120,
 
@@ -267,10 +286,10 @@ Explanation for each field:
 
     /* This is the integrated address prefix used for miner login validation. */
     "intAddressPrefix": 91,
-    
+
     /* This is the Subaddress prefix used for miner login validation. */
     "subAddressPrefix": 252,
-    
+
     /* Poll RPC daemons for new blocks every this many milliseconds. */
     "blockRefreshInterval": 1000,
 
@@ -280,7 +299,7 @@ Explanation for each field:
     "sslCert": "./cert.pem", // The SSL certificate
     "sslKey": "./privkey.pem", // The SSL private key
     "sslCA": "./chain.pem" // The SSL certificate authority chain
-    
+
     "ports": [
         {
             "port": 3333, // Port for mining apps to connect to
@@ -327,7 +346,7 @@ Explanation for each field:
         "variancePercent": 30, // Allow time to vary this % from target without retargeting
         "maxJump": 100 // Limit diff percent increase/decrease in a single retargeting
     },
-	
+
     /* Set difficulty on miner client side by passing <address> param with +<difficulty> postfix */
     "fixedDiff": {
         "enabled": true,
@@ -359,7 +378,7 @@ Explanation for each field:
         "invalidPercent": 25, // What percent of invalid shares triggers ban
         "checkThreshold": 30 // Perform check when this many shares have been submitted
     },
-    
+
     /* Slush Mining is a reward calculation technique which disincentivizes pool hopping and rewards 'loyal' miners by valuing younger shares higher than older shares. Remember adjusting the weight!
     More about it here: https://mining.bitcoin.cz/help/#!/manual/rewards */
     "slushMining": {
@@ -374,7 +393,7 @@ Explanation for each field:
     "interval": 300, // How often to run in seconds
     "maxAddresses": 50, // Split up payments if sending to more than this many addresses
     "mixin": 5, // Number of transactions yours is indistinguishable from
-    "priority": 0, // The transaction priority    
+    "priority": 0, // The transaction priority
     "transferFee": 4000000000, // Fee to pay for each transaction
     "dynamicTransferFee": true, // Enable dynamic transfer fee (fee is multiplied by number of miners)
     "minerPayFee" : true, // Miner pays the transfer fee instead of pool owner when using dynamic transfer fee
@@ -397,7 +416,7 @@ Explanation for each field:
     "poolFee": 0.8, // 0.8% pool fee (1% total fee total including donations)
     "devDonation": 0.2, // 0.2% donation to send to pool dev
     "networkFee": 0.0, // Network/Governance fee (used by some coins like Loki)
-    
+
     /* Some forknote coins have an issue with block height in RPC request, to fix you can enable this option.
        See: https://github.com/forknote/forknote-pool/issues/48 */
     "fixBlockHeightRPC": false
@@ -482,13 +501,13 @@ Explanation for each field:
     "enabled": false,
     "fromAddress": "your@email.com", // Your sender email
     "transport": "sendmail", // The transport mode (sendmail, smtp or mailgun)
-    
+
     // Configuration for sendmail transport
     // Documentation: http://nodemailer.com/transports/sendmail/
     "sendmail": {
         "path": "/usr/sbin/sendmail" // The path to sendmail command
     },
-    
+
     // Configuration for SMTP transport
     // Documentation: http://nodemailer.com/smtp/
     "smtp": {
@@ -503,7 +522,7 @@ Explanation for each field:
             "rejectUnauthorized": false // Reject unauthorized TLS/SSL certificate
         }
     },
-    
+
     // Configuration for MailGun transport
     "mailgun": {
         "key": "your-private-key", // Your MailGun Private API key
@@ -526,7 +545,7 @@ Explanation for each field:
         "stats": "/stats", // Pool statistics
          "enable": "/enable", // Enable telegram notifications
         "disable": "/disable" // Disable telegram notifications
-    }    
+    }
 },
 
 /* Monitoring RPC services. Statistics will be displayed in Admin panel */
@@ -546,7 +565,7 @@ Explanation for each field:
     "source": "cryptonator", // Exchange (supported values: cryptonator, altex, crex24, cryptopia, stocks.exchange, tradeogre, maplechange)
     "currency": "USD" // Default currency
 },
-	    
+
 /* Collect pool statistics to display in frontend charts  */
 "charts": {
     "pool": {
@@ -642,9 +661,9 @@ node init.js -module=api
 
 [Example screenshot](http://i.imgur.com/SEgrI3b.png) of running the pool in single module mode with tmux.
 
-To keep your pool up, on operating system with systemd, you can create add your pool software as a service.  
+To keep your pool up, on operating system with systemd, you can create add your pool software as a service.
 Use this [example](https://github.com/dvandal/cryptonote-nodejs-pool/blob/master/deployment/cryptonote-nodejs-pool.service) to create the systemd service `/lib/systemd/system/cryptonote-nodejs-pool.service`
-Then enable and start the service with the following commands : 
+Then enable and start the service with the following commands :
 
 ```
 sudo systemctl enable cryptonote-nodejs-pool.service
@@ -715,7 +734,7 @@ You can configure the API to be accessible via SSL using various methods. Find a
 
 * Using SSL api in `config.json`:
 
-By using this you will need to update your `api` variable in the `website_example/config.js`. For example:  
+By using this you will need to update your `api` variable in the `website_example/config.js`. For example:
 `var api = "https://poolhost:8119";`
 
 * Inside your SSL Listener, add the following:
@@ -727,7 +746,7 @@ location ~ ^/api/(.*) {
 }
 ```
 
-By adding this you will need to update your `api` variable in the `website_example/config.js` to include the /api. For example:  
+By adding this you will need to update your `api` variable in the `website_example/config.js` to include the /api. For example:
 `var api = "http://poolhost/api";`
 
 You no longer need to include the port in the variable because of the proxy connection.
@@ -739,7 +758,7 @@ server {
     server_name api.poolhost.com
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    
+
     ssl_certificate /your/ssl/certificate;
     ssl_certificate_key /your/ssl/certificate_key;
 
@@ -756,7 +775,7 @@ server {
 }
 ```
 
-By adding this you will need to update your `api` variable in the `website_example/config.js`. For example:  
+By adding this you will need to update your `api` variable in the `website_example/config.js`. For example:
 `var api = "//api.poolhost.com";`
 
 You no longer need to include the port in the variable because of the proxy connection.
