@@ -131,6 +131,49 @@ Usage
 ===
 
 #### Requirements
+===
+#### Ubuntu 22.04 Install Notes
+
+* Install Node.js version 11 from NVM
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
+nvm install v11.0.0
+```
+
+* Install Requirements
+```
+sudo apt update
+sudo apt-get install git redis python2 build-essential libssl-dev libboost-all-dev libsodium-dev
+```
+
+* Set npm to use Python2
+```
+npm config set python /usr/bin/python2.7
+```
+
+* Clone the repository and run `npm update` for all the dependencies to be installed:
+
+```
+git clone https://github.com/kevacoin-team/cryptonote-nodejs-pool.git pool
+cd pool
+
+npm update
+```
+
+* Copy Kevacoin config from config_examples
+```
+cp ./config_examples/kevacoin.json config.json
+```
+Don't forget to update the config for your settings.
+
+* Starting the pool
+
+```
+node init.js
+```
+===
+
 * Coin daemon(s) (find the coin's repo and build latest version from source)
   * [List of Cryptonote coins](https://github.com/dvandal/cryptonote-nodejs-pool/wiki/Cryptonote-Coins)
 * [Node.js](http://nodejs.org/) v11.0+
@@ -187,7 +230,7 @@ sudo su - your-user
 Clone the repository and run `npm update` for all the dependencies to be installed:
 
 ```bash
-git clone https://github.com/dvandal/cryptonote-nodejs-pool.git pool
+git clone https://github.com/kevacoin-team/cryptonote-nodejs-pool.git pool
 cd pool
 
 npm update
